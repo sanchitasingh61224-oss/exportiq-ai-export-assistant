@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ExportIQ — AI Export Documentation Assistant</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brandmark">↗</div><div><strong>EXPORTIQ</strong><small>AI EXPORT ASSISTANT</small></div></div>
+  <div class="nav-label">WORKSPACE</div>
+  <nav class="nav">
+    <button class="active" data-page="dashboard"><span class="ico">▦</span> Dashboard</button>
+    <button data-page="shipments"><span class="ico">▣</span> My Shipments</button>
+    <button data-page="create"><span class="ico">＋</span> Create Shipment</button>
+    <button data-page="generator"><span class="ico">▤</span> Document Generator</button>
+    <button data-page="verify"><span class="ico">⌕</span> AI Verification</button>
+    <button data-page="compliance"><span class="ico">◈</span> Compliance Checker</button>
+  </nav>
+  <div class="nav-label">PREFERENCES</div>
+  <nav class="nav"><button data-page="help"><span class="ico">ⓘ</span> Help & Guidance</button></nav>
+  <div class="sidebar-bottom"> <b>ExportIQ demo workspace</b><br/>Prototype version · Sample data only<br/><span style="color:#8fa9bd">Regulatory checks require official verification.</span></div>
+</aside>
+<main class="main">
+<header class="topbar"><div style="display:flex;align-items:center;gap:12px"><button class="btn btn-light mobile-menu" id="menuBtn">☰</button><span class="crumb">Workspace / <b id="crumb">Dashboard</b></span></div><div class="top-actions"><span class="muted" style="font-size:12px">Demo workspace</span><div class="avatar">EX</div></div></header>
+<div class="content">
+<section class="page active" id="dashboard">
+  <div class="heading"><div><div class="eyebrow">OVERVIEW</div><h1>Good morning, Exporter 👋</h1><div class="sub">Here’s what’s happening with your export operations today.</div></div><button class="btn btn-primary" onclick="showPage('create')">＋ Create shipment</button></div>
+  <div class="grid stats">
+    <div class="card"><div class="stat-top">Total shipments <span class="stat-icon">▣</span></div><div class="stat-value" id="statShipments">3</div><div class="stat-note">Across your workspace</div></div>
+    <div class="card"><div class="stat-top">Documents generated <span class="stat-icon">▤</span></div><div class="stat-value" id="statDocs">2</div><div class="stat-note">Ready for your review</div></div>
+    <div class="card"><div class="stat-top">Pending review <span class="stat-icon">◷</span></div><div class="stat-value" id="statPending">1</div><div class="stat-note">Requires your attention</div></div>
+    <div class="card"><div class="stat-top">Issues detected <span class="stat-icon">⚠</span></div><div class="stat-value" id="statIssues">1</div><div class="stat-note">Across sample documents</div></div>
+  </div>
+  <div class="grid dashboard-grid">
+    <div class="card"><div class="card-title"><h3>Recent shipments</h3><button class="link" onclick="showPage('shipments')">View all →</button></div><div class="table-wrap"><table><thead><tr><th>SHIPMENT ID</th><th>DESTINATION</th><th>PRODUCT</th><th>STATUS</th></tr></thead><tbody id="recentRows"><tr><td><b>EXP-2026-001</b></td><td>Germany</td><td>Coffee beans</td><td><span class="status green">Verified</span></td></tr><tr><td><b>EXP-2026-002</b></td><td>United States</td><td>Textile goods</td><td><span class="status yellow">Pending</span></td></tr><tr><td><b>EXP-2026-003</b></td><td>United Arab Emirates</td><td>Handicrafts</td><td><span class="status red">Needs review</span></td></tr></tbody></table></div></div>
+    <div class="card assistant-card"><div class="card-title"><h3>✦ Your AI assistant</h3><span class="tag">READY</span></div><p>Prepare shipment documents, review information for inconsistencies and explore destination-specific requirements.</p><button class="btn" onclick="showPage('create')">Start a shipment →</button></div>
+    <div class="card"><div class="card-title"><h3>Quick actions</h3></div><div class="activity"><span class="dot"></span><div><b>Create export documents</b><div class="muted">Generate an invoice or packing list</div><button class="link" onclick="showPage('generator')">Open generator →</button></div></div><div class="activity"><span class="dot" style="background:#d59a42"></span><div><b>Check document consistency</b><div class="muted">Review details across your documents</div><button class="link" onclick="showPage('verify')">Verify documents →</button></div></div></div>
+    <div class="card"><div class="card-title"><h3>Recent activity</h3></div><div class="activity"><span class="dot"></span><div><b>Invoice draft created</b><div class="muted">EXP-2026-001 · Just now (demo)</div></div></div><div class="activity"><span class="dot" style="background:#d59a42"></span><div><b>Quantity mismatch flagged</b><div class="muted">EXP-2026-003 · Sample alert</div></div></div></div>
+  </div>
+</section>
+
+<section class="page" id="shipments">
+ <div class="heading"><div><div class="eyebrow">YOUR WORKSPACE</div><h1>My shipments</h1><div class="sub">Track and manage shipment records in one place.</div></div><button class="btn btn-primary" onclick="showPage('create')">＋ New shipment</button></div>
+ <div class="card"><div class="card-title"><h3>All shipments</h3><span class="tag" id="shipmentCount">3 RECORDS</span></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>PRODUCT</th><th>DESTINATION</th><th>QUANTITY</th><th>STATUS</th></tr></thead><tbody id="allRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="create">
+ <div class="heading"><div><div class="eyebrow">NEW EXPORT</div><h1>Create a shipment</h1><div class="sub">Add shipment information to prepare your documentation workspace.</div></div></div>
+ <div class="card form-card">
+  <div class="steps"><div class="step active" id="s1">1 · Exporter</div><div class="step" id="s2">2 · Product</div><div class="step" id="s3">3 · Shipping</div><div class="step" id="s4">4 · Review</div></div>
+  <form id="shipmentForm">
+   <div class="formstep" id="f1"><h3 style="color:var(--navy);font-size:16px">Exporter information</h3><p class="sub">Who is sending the goods?</p><div class="form-grid">
+    <div class="field"><label>Company / exporter name *</label><input id="company" required placeholder="e.g. Sunrise Exports Pvt. Ltd."/></div>
+    <div class="field"><label>IEC number</label><input id="iec" placeholder="Import Export Code"/></div>
+    <div class="field full"><label>Registered address</label><input id="address" placeholder="Street, city, state, PIN code"/></div>
+    <div class="field"><label>Contact email</label><input id="email" type="email" placeholder="name@company.com"/></div>
+    <div class="field"><label>Contact person</label><input id="contact" placeholder="Full name"/></div>
+   </div></div>
+   <div class="formstep" id="f2" style="display:none"><h3 style="color:var(--navy);font-size:16px">Product information</h3><p class="sub">Describe the goods being exported.</p><div class="form-grid">
+    <div class="field"><label>Product name *</label><input id="product" required placeholder="e.g. Roasted coffee beans"/></div>
+    <div class="field"><label>HS code (if known)</label><input id="hs" placeholder="e.g. 0901"/></div>
+    <div class="field"><label>Quantity *</label><input id="quantity" required type="number" min="0.01" step="0.01" placeholder="500"/></div>
+    <div class="field"><label>Unit</label><select id="unit"><option>kg</option><option>pieces</option><option>cartons</option><option>tonnes</option><option>litres</option></select></div>
+    <div class="field"><label>Total product value (INR) *</label><input id="value" required type="number" min="0" placeholder="250000"/></div>
+    <div class="field"><label>Currency</label><select id="currency"><option>INR</option><option>USD</option><option>EUR</option><option>GBP</option></select></div>
+   </div></div>
+   <div class="formstep" id="f3" style="display:none"><h3 style="color:var(--navy);font-size:16px">Shipping information</h3><p class="sub">Where are the goods going?</p><div class="form-grid">
+    <div class="field"><label>Destination country *</label><select id="destination" required><option value="">Select country</option><option>Germany</option><option>United States</option><option>United Arab Emirates</option><option>United Kingdom</option><option>Singapore</option><option>Japan</option><option>Australia</option><option>France</option></select></div>
+    <div class="field"><label>Mode of transport</label><select id="transport"><option>Sea freight</option><option>Air freight</option><option>Road</option><option>Rail</option></select></div>
+    <div class="field"><label>Port / place of loading</label><input id="loading" placeholder="e.g. Nhava Sheva, India"/></div>
+    <div class="field"><label>Port / place of destination</label><input id="port" placeholder="e.g. Hamburg, Germany"/></div>
+    <div class="field"><label>Incoterms</label><select id="incoterm"><option>FOB</option><option>EXW</option><option>CIF</option><option>CFR</option><option>DAP</option><option>DDP</option><option>FCA</option></select></div>
+    <div class="field"><label>Expected shipment date</label><input id="shipdate" type="date"/></div>
+   </div></div>
+   <div class="formstep" id="f4" style="display:none"><h3 style="color:var(--navy);font-size:16px">Review shipment details</h3><p class="sub">Check the information before creating your shipment.</p><div id="reviewDetails" class="result"></div><div class="notice">Your information will be used to prepare draft documents. Please verify all entries and applicable trade requirements before using documents commercially.</div></div>
+   <div class="form-actions"><button type="button" class="btn btn-light" id="backBtn" onclick="changeStep(-1)" disabled>← Back</button><button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">Continue →</button></div>
+  </form>
+ </div>
+</section>
+
+<section class="page" id="generator">
+ <div class="heading"><div><div class="eyebrow">DOCUMENT WORKSPACE</div><h1>AI document generator</h1><div class="sub">Create editable draft documents from shipment details.</div></div><span class="tag">DRAFT GENERATION</span></div>
+ <div class="grid split">
+  <div class="card"><h3 style="font-size:15px;color:var(--navy);margin-top:0">Document settings</h3>
+   <div class="field" style="margin:16px 0"><label>Select shipment</label><select id="genShipment"></select></div>
+   <div class="field" style="margin:16px 0"><label>Document type</label><select id="docType"><option>Commercial Invoice</option><option>Packing List</option><option>Proforma Invoice</option></select></div>
+   <div class="notice">The generator uses the shipment details entered in this prototype. Generated content is a draft and may need additional fields or review by an export professional.</div>
+   <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="generateDoc()">✦ Generate document</button>
+   <div class="muted" style="font-size:11px;margin-top:12px">You can print or save the preview as PDF using your browser.</div>
+  </div>
+  <div class="doc-preview"><div class="card-title"><h3>Document preview</h3><button class="btn btn-light" onclick="window.print()">↓ Print / Save PDF</button></div><div id="documentPreview" class="paper"><div class="empty">Choose a shipment and select “Generate document” to see your draft here.</div></div></div>
+ </div>
+</section>
+
+<section class="page" id="verify">
+ <div class="heading"><div><div class="eyebrow">QUALITY CONTROL</div><h1>AI document verification</h1><div class="sub">Check shipment details for consistency before finalising documents.</div></div></div>
+ <div class="grid split">
+  <div class="card"><h3 style="font-size:15px;color:var(--navy);margin-top:0">Compare shipment quantities</h3><p class="sub">Enter the quantity shown on each document. This interactive demo checks whether the values match.</p>
+   <div class="field" style="margin:18px 0"><label>Commercial invoice quantity</label><input id="invoiceQty" type="number" value="500"/></div>
+   <div class="field" style="margin:18px 0"><label>Packing list quantity</label><input id="packingQty" type="number" value="450"/></div>
+   <div class="field" style="margin:18px 0"><label>Unit</label><select id="verifyUnit"><option>kg</option><option>pieces</option><option>cartons</option><option>tonnes</option></select></div>
+   <button class="btn btn-primary" onclick="verifyDocs()">⌕ Run consistency check</button>
+  </div>
+  <div class="card"><div class="card-title"><h3>Verification report</h3><span class="tag">RULE-BASED DEMO</span></div><div id="verifyResult"><div class="empty">Run a check to see the verification report.</div></div></div>
+ </div>
+ <div class="notice">Prototype limitation: this page demonstrates basic field consistency checks, not full AI-powered OCR or legal validation. A production version could extract fields from uploaded PDFs and compare them automatically.</div>
+</section>
+
+<section class="page" id="compliance">
+ <div class="heading"><div><div class="eyebrow">TRADE GUIDANCE</div><h1>Export compliance checker</h1><div class="sub">Build a preliminary checklist based on your product and destination.</div></div></div>
+ <div class="grid split">
+  <div class="card"><h3 style="font-size:15px;color:var(--navy);margin-top:0">Shipment profile</h3>
+   <div class="field" style="margin:16px 0"><label>Product category</label><select id="compProduct"><option value="general">General merchandise</option><option value="food">Food / agricultural product</option><option value="textile">Textile / apparel</option><option value="chemical">Chemical / regulated product</option></select></div>
+   <div class="field" style="margin:16px 0"><label>Exporting country</label><select><option>India</option></select></div>
+   <div class="field" style="margin:16px 0"><label>Destination country</label><select id="compDestination"><option>Germany</option><option>United States</option><option>United Arab Emirates</option><option>United Kingdom</option><option>Singapore</option><option>Japan</option></select></div>
+   <button class="btn btn-primary" onclick="checkCompliance()">Create preliminary checklist</button>
+  </div>
+  <div class="card"><div class="card-title"><h3>Suggested checklist</h3><span class="tag">PRELIMINARY</span></div><div id="complianceResult"><div class="empty">Select a product and destination to create a checklist.</div></div></div>
+ </div>
+ <div class="notice"><b>Important:</b> This prototype does not connect to live customs or government databases. Requirements vary by HS code, product composition, origin, destination and current rules. Confirm every requirement with official authorities or a qualified customs professional before shipment.</div>
+</section>
+
+<section class="page" id="help">
+ <div class="heading"><div><div class="eyebrow">GETTING STARTED</div><h1>Help & guidance</h1><div class="sub">A quick guide to using your ExportIQ workspace.</div></div></div>
+ <div class="card" style="max-width:850px"><h3 style="color:var(--navy)">How ExportIQ works</h3><div class="activity"><span class="dot"></span><div><b>1. Create a shipment</b><div class="muted">Enter exporter, product and shipping information.</div></div></div><div class="activity"><span class="dot"></span><div><b>2. Generate draft documents</b><div class="muted">Choose a document type and create a draft from the shipment profile.</div></div></div><div class="activity"><span class="dot"></span><div><b>3. Verify consistency</b><div class="muted">Compare important values across documents and resolve mismatches.</div></div></div><div class="activity"><span class="dot"></span><div><b>4. Review compliance</b><div class="muted">Use the preliminary checklist as a starting point, then verify official requirements.</div></div></div><div class="notice">This is a front-end prototype with local demo interactions. It does not store data on a server, submit customs filings, or provide certified legal advice.</div></div>
+</section>
+</div>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
